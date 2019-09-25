@@ -3,9 +3,9 @@ package com.aanassar.hackerrank
 object BomberManApplication extends App {
   import scala.annotation.tailrec
 
-  val BOMB = 'O'
-
   def bomberMan(n: Int, grid: Array[String]): Array[String] = {
+
+    val BOMB = 'O'
 
     val state: Array[Array[Option[Int]]] = grid.map(_.toCharArray.map(c => if (c == BOMB) {
       Option(0)
@@ -27,31 +27,36 @@ object BomberManApplication extends App {
       }
     }
 
-    def detonateCell(y: Int, x: Int): Unit = {
-      for (i <- y - 1 to y + 1; j <- x - 1 to x + 1) {
-        if (i >= 0 && i < state.length && j >= 0 && j < state(i).length) {
-          state(i)(j) = Option.empty
-          println(s"Detonated cell at ($j, $i)")
-        }
-      }
+    def detonateWithNeighbors(y: Int, x: Int): Unit = {
+      println(s"Detonated neighbors of ($y, $x)")
+      state(y)(x) = Option.empty
+      if (y > 0)
+        state(y - 1)(x) = Option.empty
+      if (y < state.length - 1)
+        state(y + 1)(x) = Option.empty
+      if (x > 0)
+        state(y)(x - 1) = Option.empty
+      if (x < state(y).length - 1)
+        state(y)(x + 1) = Option.empty
     }
 
     def detonate(t: Int): Unit = {
-      for (y <- state.indices; x <- state(y).indices) {
-        if (state(y)(x).map(t - _ >= 3).getOrElse(false))
-          detonateCell(y, x)
-        println(s"Detonated cell at ($x, $y)")
-
-      }
+      val bombs = for {
+        y <- state.indices
+        x <- state(y).indices
+        if state(y)(x).map(t - _ == 3).getOrElse(false)
+      } yield (y, x)
+      // First, find all live bombs. Then implement detonation.
+      bombs.foreach(b => detonateWithNeighbors(b._1, b._2))
     }
 
     @tailrec
     def iterate(t: Int): Unit = {
-      println(s"Iteration at $t")
+      println(s"Iteration at $t: \n${format().mkString("\n")}")
       if (t > n) {
         ()
       } else if (t % 2 == 0) {
-        plant(t);
+        plant(t)
         iterate(t + 1)
       } else {
         detonate(t)
@@ -69,9 +74,7 @@ object BomberManApplication extends App {
     }
   }
 
-  val input = Array("...", ".O.", "...", "...")
+  val input = Array(".......","...O...", "....O..", ".......","OO.....", "OO.....")
 
   val output = bomberMan(3, input)
-
-  println(output.mkString("\n"))
 }
