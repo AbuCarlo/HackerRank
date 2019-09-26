@@ -21,6 +21,17 @@ class TestBomberMan {
     }
 
     @Test
+    void testEvenIterations() {
+        def input = '''...
+.O.
+...'''
+        def lines = splitInput(input)
+        def output = BomberManApplication.bomberMan(100, lines)
+
+        println output
+    }
+
+    @Test
     void testCase07() {
         def lines = Paths.get("test-files/test-case-7.txt").readLines('US-ASCII') as String[]
 
