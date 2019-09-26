@@ -28,6 +28,10 @@ public class BomberManApplication {
 
         if (n < 2) {
             return grid;
+        } else if (n %2 == 0) {
+            // This is a performance hack. On even-numbered intervals, new bombs will be planted in every
+            // empty cell, meaning that every cell will end up with a bomb.
+            n = 4;
         }
 
         char[][] oldBombs = Arrays.stream(grid).map(String::toCharArray).toArray(char[][]::new);

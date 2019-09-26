@@ -1,1 +1,4 @@
-/HackerRankGroovy.iml
+*.iml
+.gradle/
+.idea/
+build/
