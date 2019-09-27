@@ -1,6 +1,7 @@
 import com.aanassar.hackerrank.BomberManApplication
 import org.junit.Test
 
+import java.nio.file.Path
 import java.nio.file.Paths
 
 class TestBomberMan {
@@ -15,9 +16,11 @@ class TestBomberMan {
 .O.
 ...'''
         def lines = splitInput(input)
-        def output = BomberManApplication.bomberMan(3, lines)
+        println BomberManApplication.bomberMan(3, lines)
 
-        println output
+        println BomberManApplication.bomberMan(5, lines)
+
+        println BomberManApplication.bomberMan(7, lines)
     }
 
     @Test
@@ -33,8 +36,20 @@ class TestBomberMan {
 
     @Test
     void testCase07() {
-        def lines = Paths.get("test-files/test-case-7.txt").readLines('US-ASCII') as String[]
+        def path = Paths.get("test-files/bomber-man/test-case-7.txt");
 
-        def output = BomberManApplication.bomberMan(197, lines)
+        def actual = BomberManApplication.fromInput(path);
+
+        def expected = readAnswer("test-files/bomber-man/test-case-answer-7.txt")
+
+        assert actual == expected
+    }
+
+    private String[] readAnswer(String answerPath) {
+        readAnswer Paths.get(answerPath)
+    }
+
+    private String[] readAnswer(Path answerPath) {
+        answerPath.readLines('US-ASCII')
     }
 }
