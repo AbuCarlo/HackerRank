@@ -10,8 +10,8 @@ import java.util.List;
 
 public class BomberManApplication {
 
-    private static final char BOMB = 'O';
-    private static final char NO_BOMB = '.';
+    public static final char BOMB = 'O';
+    public static final char NO_BOMB = '.';
 
     private static final char EVEN_BOMB = 'E';
     private static final char ODD_BOMB = 'O';
@@ -46,6 +46,12 @@ public class BomberManApplication {
             // empty cell, meaning that every cell will end up with a bomb. So we can skip the algorithm.
             return createFullGrid(grid);
         }
+
+        // IT TURNS OUT THAT IT'S A TRICK QUESTION: THE GRID CYCLES.
+        // The results of iterations 3, 7, 11 &c. are identical;
+        // likewise iterations 5, 9, 13 &c.
+
+        n = (n % 4) == 3 ? 3 : 5;
 
         // We know that this algorithm was called with an *odd* number of intervals. Therefore we can combine
         // planting new bombs and detonating older ones into a single loop iteration. Bombs planted during interval

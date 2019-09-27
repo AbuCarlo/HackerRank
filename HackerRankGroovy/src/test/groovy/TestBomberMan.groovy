@@ -6,8 +6,32 @@ import java.nio.file.Paths
 
 class TestBomberMan {
 
+    final Random random = new Random()
+
+    String[] createRandomGrid(int height, int width) {
+        char[][] grid = new char[height][width]
+        for (int y in 0..<height)
+            for (int x in 0..<width)
+                grid[y][x] = random.nextBoolean() ? BomberManApplication.BOMB : BomberManApplication.NO_BOMB
+
+        grid.collect { new String(it) }
+    }
+
     def splitInput(String input) {
         return input.readLines() as String[]
+    }
+
+    @Test
+    void testCycles() {
+        def grid = createRandomGrid(5, 5)
+
+        println "After 1 iteration: \n\n$grid\n"
+
+        for (int i in 0..10) {
+            final int n = i * 2 + 3
+            final def output = BomberManApplication.bomberMan(n, grid)
+            println "After $n iterations: \n\n$output\n"
+        }
     }
 
     @Test
