@@ -11,7 +11,7 @@ int queensAttack(List input) {
     }
 
     upward(queensRow, queensColumn, obstacles) + downward(n, queensRow, queensColumn, obstacles) +
-            leftward(queensRow, queensColumn, obstacles) + rightward(n, queensRow, queensColumn, obstacles) +
+            leftward(n, queensRow, queensColumn, obstacles) + rightward(n, queensRow, queensColumn, obstacles) +
             northwest(queensRow, queensColumn, obstacles) + northeast(n, queensRow, queensColumn, obstacles) +
             southwest(n, queensRow, queensColumn, obstacles) + southeast(n, queensRow, queensColumn, obstacles)
 }
@@ -38,7 +38,9 @@ private int downward(final int n, int queensRow, int queensColumn, Map obstacles
     attacks
 }
 
-private int leftward(final int queensRow, int queensColumn, Map obstacles) {
+private int leftward(final int n, final int queensRow, int queensColumn, Map obstacles) {
+    if (!obstacles.containsKey(queensRow))
+        return queensColumn
     int attacks = 0
     for (int c = queensColumn - 1; c >= 0; --c) {
         if (obstacles.containsKey(queensRow) && obstacles.get(queensRow).contains(c)) {
@@ -50,6 +52,8 @@ private int leftward(final int queensRow, int queensColumn, Map obstacles) {
 }
 
 private int rightward(final int n, final int queensRow, final int queensColumn, Map obstacles) {
+    if (!obstacles.containsKey(queensRow))
+        return n - queensColumn - 1
     int attacks = 0
     for (int c = queensColumn + 1; c < n; ++c) {
         if (obstacles.containsKey(queensRow) && obstacles.get(queensRow).contains(c)) {
@@ -102,7 +106,7 @@ private int southwest(final int n, final int queensRow, final int queensColumn, 
 private int southeast(final int n, final int queensRow, final int queensColumn, Map obstacles) {
     int attacks = 0
     int r = queensRow + 1
-    for (int c = queensColumn + 1; c <= n && r < n; ++c) {
+    for (int c = queensColumn + 1; c < n && r < n; ++c) {
         if (obstacles.containsKey(r) && obstacles.get(r).contains(c)) {
             break
         }
@@ -126,3 +130,9 @@ def sampleOne = '''5 3
 '''
 
 assert queensAttack(sampleOne.readLines()) == 10
+
+def testCaseThree = '''100000 0
+4187 5068
+'''
+
+assert queensAttack(testCaseThree.readLines()) == 308369
