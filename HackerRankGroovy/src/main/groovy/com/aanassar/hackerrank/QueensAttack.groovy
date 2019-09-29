@@ -6,18 +6,18 @@ int queensAttack(List input) {
     def (int queensRow, int queensColumn) = input[1].split(' ')*.toInteger()*.minus(1)
     Map obstacles = [:]
     int upwardAttacks = queensRow
-    int lastLeftward = -1
+    int leftwardAttacks = queensColumn
     int downwardAttacks = n - queensRow - 1
-    int lastRightward = n
+    int rightwardAttacks = n - queensColumn - 1
     for (line in input.drop(2)) {
         def (int row, int column) = line.split(' ')*.toInteger()*.minus(1)
         obstacles.computeIfAbsent(row, { new HashSet() }).add(column)
         if (row == queensRow) {
             // If the obstacle is between the queen and the edge...
-            if (column < queensColumn && column > lastLeftward) {
-                lastLeftward = column
-            } else if (column < lastRightward) {
-                lastRightward = column
+            if (column < queensColumn && queensColumn - column - 1 < leftwardAttacks) {
+                leftwardAttacks = queensColumn - column - 1
+            } else if (column - queensColumn - 1 < rightwardAttacks) {
+                rightwardAttacks = column - queensColumn - 1
             }
         }
         if (column == queensColumn) {
@@ -29,9 +29,7 @@ int queensAttack(List input) {
         }
     }
 
-    int leftward = queensColumn - lastLeftward - 1
-    int rightward = lastRightward - queensColumn - 1
-    upwardAttacks + downwardAttacks + leftward + rightward +
+    upwardAttacks + downwardAttacks + leftwardAttacks + rightwardAttacks +
             northwest(queensRow, queensColumn, obstacles) + northeast(n, queensRow, queensColumn, obstacles) +
             southwest(n, queensRow, queensColumn, obstacles) + southeast(n, queensRow, queensColumn, obstacles)
 }
