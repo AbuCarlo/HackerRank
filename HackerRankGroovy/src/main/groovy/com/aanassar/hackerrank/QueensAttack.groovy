@@ -5,9 +5,9 @@ int queensAttack(List input) {
     // Java is 0-based; the problem is 1-based.
     def (int queensRow, int queensColumn) = input[1].split(' ')*.toInteger()*.minus(1)
     Map obstacles = [:]
-    int lastUpward = -1
+    int upwardAttacks = queensRow
     int lastLeftward = -1
-    int lastDownward = n
+    int downwardAttacks = n - queensRow - 1
     int lastRightward = n
     for (line in input.drop(2)) {
         def (int row, int column) = line.split(' ')*.toInteger()*.minus(1)
@@ -21,19 +21,17 @@ int queensAttack(List input) {
             }
         }
         if (column == queensColumn) {
-            if (row < queensRow && row > lastUpward) {
-                lastUpward = row
-            } else if (row < lastDownward) {
-                lastDownward = row
+            if (row < queensRow && queensRow - row - 1 < upwardAttacks) {
+                upwardAttacks = queensRow - row - 1
+            } else if (row - queensRow - 1 < downwardAttacks) {
+                downwardAttacks = row - queensRow - 1
             }
         }
     }
 
-    int upward = queensRow - lastUpward - 1
-    int downward = lastDownward - queensRow - 1
     int leftward = queensColumn - lastLeftward - 1
     int rightward = lastRightward - queensColumn - 1
-    upward + downward + leftward + rightward +
+    upwardAttacks + downwardAttacks + leftward + rightward +
             northwest(queensRow, queensColumn, obstacles) + northeast(n, queensRow, queensColumn, obstacles) +
             southwest(n, queensRow, queensColumn, obstacles) + southeast(n, queensRow, queensColumn, obstacles)
 }
