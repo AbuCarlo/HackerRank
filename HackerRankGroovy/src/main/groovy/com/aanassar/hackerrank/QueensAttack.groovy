@@ -7,9 +7,10 @@ class QueensAttack {
         // Java is 0-based; the problem is 1-based.
         def (int queensRow, int queensColumn) = input[1].split(' ')*.toInteger()*.minus(1)
         Map obstacles = [:]
-        int upwardAttacks = queensRow
+        int upwardObstacle = -1
+        int downwardObstacle = n
+
         int leftwardAttacks = queensColumn
-        int downwardAttacks = n - queensRow - 1
         int rightwardAttacks = n - queensColumn - 1
         int southeastAttacks = Math.min(n - queensColumn - 1, n - queensRow - 1)
         int northwestAttacks = Math.min(queensColumn, queensRow)
@@ -27,11 +28,11 @@ class QueensAttack {
                     rightwardAttacks = horizontalDistance
                 }
             } else if (column == queensColumn) {
-                def verticalDistance = Math.abs(queensRow - row) - 1
-                if (row < queensRow && verticalDistance < upwardAttacks) {
-                    upwardAttacks = verticalDistance
-                } else if (verticalDistance < downwardAttacks) {
-                    downwardAttacks = verticalDistance
+                if (row < queensRow) {
+                    if (row > upwardObstacle)
+                        upwardObstacle = row
+                } else if (row < downwardObstacle) {
+                    downwardObstacle = row
                 }
             } else if (row - column == queensRow - queensColumn) {
                 final int attacks = Math.min(Math.abs(row - queensRow), Math.abs(column - queensColumn)) - 1
@@ -49,7 +50,8 @@ class QueensAttack {
             }
         }
 
-        upwardAttacks + downwardAttacks + leftwardAttacks + rightwardAttacks +
+        (queensRow - upwardObstacle - 1) + (downwardObstacle - queensRow - 1) +
+                leftwardAttacks + rightwardAttacks +
                 northwestAttacks + northeastAttacks +
                 southwestAttacks + southeastAttacks
     }
