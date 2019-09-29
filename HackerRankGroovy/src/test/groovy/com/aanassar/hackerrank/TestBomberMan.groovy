@@ -1,4 +1,5 @@
-import com.aanassar.hackerrank.BomberManApplication
+package com.aanassar.hackerrank
+
 import org.junit.Test
 
 import java.nio.file.Path
