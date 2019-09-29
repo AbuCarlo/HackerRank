@@ -10,8 +10,9 @@ class QueensAttack {
         int upwardObstacle = -1
         int downwardObstacle = n
 
-        int leftwardAttacks = queensColumn
-        int rightwardAttacks = n - queensColumn - 1
+        int leftwardObstacle = -1
+        int rightwardObstacle = n
+
         int southeastAttacks = Math.min(n - queensColumn - 1, n - queensRow - 1)
         int northwestAttacks = Math.min(queensColumn, queensRow)
         int southwestAttacks = Math.min(n - queensRow - 1, queensColumn)
@@ -20,12 +21,11 @@ class QueensAttack {
             def (int row, int column) = line.split(' ')*.toInteger()*.minus(1)
             obstacles.computeIfAbsent(row, { new HashSet() }).add(column)
             if (row == queensRow) {
-                // If the obstacle is between the queen and the edge...
-                def horizontalDistance = Math.abs(queensColumn - column) - 1
-                if (column < queensColumn && horizontalDistance < leftwardAttacks) {
-                    leftwardAttacks = horizontalDistance
-                } else if (horizontalDistance < rightwardAttacks) {
-                    rightwardAttacks = horizontalDistance
+                if (column < queensColumn) {
+                    if (column > leftwardObstacle)
+                        leftwardObstacle = column
+                } else if (column < rightwardObstacle) {
+                    rightwardObstacle = column
                 }
             } else if (column == queensColumn) {
                 if (row < queensRow) {
@@ -51,7 +51,7 @@ class QueensAttack {
         }
 
         (queensRow - upwardObstacle - 1) + (downwardObstacle - queensRow - 1) +
-                leftwardAttacks + rightwardAttacks +
+                (queensColumn - leftwardObstacle - 1) + (rightwardObstacle - queensColumn - 1) +
                 northwestAttacks + northeastAttacks +
                 southwestAttacks + southeastAttacks
     }
