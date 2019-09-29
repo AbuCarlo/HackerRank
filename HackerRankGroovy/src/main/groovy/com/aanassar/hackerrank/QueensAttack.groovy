@@ -2,10 +2,10 @@ package com.aanassar.hackerrank
 
 class QueensAttack {
 
-    static int queensAttack(List input) {
-        def (int n, int k) = input[0].split(' ')*.toInteger()
+    static int queensAttack(BufferedReader reader) {
+        def (int n, int k) = reader.readLine().split(' ')*.toInteger()
         // Java is 0-based; the problem is 1-based.
-        def (int queensRow, int queensColumn) = input[1].split(' ')*.toInteger()*.minus(1)
+        def (int queensRow, int queensColumn) = reader.readLine().split(' ')*.toInteger()*.minus(1)
 
         int upwardObstacle = -1
         int downwardObstacle = n
@@ -18,7 +18,7 @@ class QueensAttack {
         int northeastObstacle = Math.max(-1, queensRow - (n - queensColumn))
         int southeastObstacle = Math.min(n, queensRow + (n - queensColumn))
 
-        for (line in input.drop(2)) {
+        for (line in reader.lines()) {
             def (int row, int column) = line.split(' ')*.toInteger()*.minus(1)
             if (row == queensRow) {
                 if (column < queensColumn) {
