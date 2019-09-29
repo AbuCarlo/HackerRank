@@ -4,64 +4,38 @@ int queensAttack(List input) {
     def (int n, int k) = input[0].split(' ')*.toInteger()
     // Java is 0-based; the problem is 1-based.
     def (int queensRow, int queensColumn) = input[1].split(' ')*.toInteger()*.minus(1)
-    Map obstacles = input.drop(2).inject([:]) { Map m, String line ->
+    Map obstacles = [:]
+    int lastUpward = -1
+    int lastLeftward = -1
+    int lastDownward = n
+    int lastRightward = n
+    for (line in input.drop(2)) {
         def (int row, int column) = line.split(' ')*.toInteger()*.minus(1)
-        m.computeIfAbsent(row, { new HashSet() }).add(column)
-        m
+        obstacles.computeIfAbsent(row, { new HashSet() }).add(column)
+        if (row == queensRow) {
+            // If the obstacle is between the queen and the edge...
+            if (column < queensColumn && column > lastLeftward) {
+                lastLeftward = column
+            } else if (column < lastRightward) {
+                lastRightward = column
+            }
+        }
+        if (column == queensColumn) {
+            if (row < queensRow && row > lastUpward) {
+                lastUpward = row
+            } else if (row < lastDownward) {
+                lastDownward = row
+            }
+        }
     }
 
-    upward(queensRow, queensColumn, obstacles) + downward(n, queensRow, queensColumn, obstacles) +
-            leftward(n, queensRow, queensColumn, obstacles) + rightward(n, queensRow, queensColumn, obstacles) +
+    int upward = queensRow - lastUpward - 1
+    int downward = lastDownward - queensRow - 1
+    int leftward = queensColumn - lastLeftward - 1
+    int rightward = lastRightward - queensColumn - 1
+    upward + downward + leftward + rightward +
             northwest(queensRow, queensColumn, obstacles) + northeast(n, queensRow, queensColumn, obstacles) +
             southwest(n, queensRow, queensColumn, obstacles) + southeast(n, queensRow, queensColumn, obstacles)
-}
-
-private int upward(int queensRow, int queensColumn, Map obstacles) {
-    int attacks = 0
-    for (int r = queensRow - 1; r >= 0; --r) {
-        if (obstacles.containsKey(r) && obstacles.get(r).contains(queensColumn)) {
-            break
-        }
-        ++attacks
-    }
-    attacks
-}
-
-private int downward(final int n, int queensRow, int queensColumn, Map obstacles) {
-    int attacks = 0
-    for (int r = queensRow + 1; r < n; ++r) {
-        if (obstacles.containsKey(r) && obstacles.get(r).contains(queensColumn)) {
-            break
-        }
-        ++attacks
-    }
-    attacks
-}
-
-private int leftward(final int n, final int queensRow, int queensColumn, Map obstacles) {
-    if (!obstacles.containsKey(queensRow))
-        return queensColumn
-    int attacks = 0
-    for (int c = queensColumn - 1; c >= 0; --c) {
-        if (obstacles.containsKey(queensRow) && obstacles.get(queensRow).contains(c)) {
-            break
-        }
-        ++attacks
-    }
-    attacks
-}
-
-private int rightward(final int n, final int queensRow, final int queensColumn, Map obstacles) {
-    if (!obstacles.containsKey(queensRow))
-        return n - queensColumn - 1
-    int attacks = 0
-    for (int c = queensColumn + 1; c < n; ++c) {
-        if (obstacles.containsKey(queensRow) && obstacles.get(queensRow).contains(c)) {
-            break
-        }
-        ++attacks
-    }
-    attacks
 }
 
 private int northwest(final int queensRow, final int queensColumn, Map obstacles) {
@@ -115,6 +89,30 @@ private int southeast(final int n, final int queensRow, final int queensColumn, 
     }
     attacks
 }
+
+def sampleNone = '''4 4
+2 2
+1 2
+2 3
+2 1
+3 2
+'''
+
+assert queensAttack(sampleNone.readLines()) == 5
+
+def sampleBlah = '''7 8
+4 4
+1 4
+2 4
+4 1
+4 2 
+4 7
+4 6
+6 4
+7 4
+'''
+
+assert queensAttack(sampleBlah.readLines()) == 16
 
 def sampleZero = '''4 0
 4 4
