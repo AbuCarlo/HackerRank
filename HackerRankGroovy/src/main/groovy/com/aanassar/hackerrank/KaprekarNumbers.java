@@ -26,7 +26,7 @@ public class KaprekarNumbers {
 
     static List<Integer> findKaprekar(final int p, final int q) {
         List<Integer> result = new ArrayList<>();
-        return IntStream.rangeClosed(p, q).filter(KaprekarNumbers::isKaprekar).mapToObj(Integer::valueOf).collect(Collectors.toList());
+        return IntStream.rangeClosed(p, q).parallel().filter(KaprekarNumbers::isKaprekar).mapToObj(Integer::valueOf).collect(Collectors.toList());
     }
 
     static void kaprekarNumbers(int p, int q) {
