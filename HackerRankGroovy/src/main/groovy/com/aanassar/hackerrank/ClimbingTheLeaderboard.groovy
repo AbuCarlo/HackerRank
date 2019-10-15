@@ -1,7 +1,5 @@
 package com.aanassar.hackerrank
 
-import java.util.function.IntBinaryOperator
-
 int[] solve(BufferedReader reader) {
     def n = reader.readLine().toInteger()
     int[] scores = reader.readLine().split(' ')*.toInteger().unique().sort()
