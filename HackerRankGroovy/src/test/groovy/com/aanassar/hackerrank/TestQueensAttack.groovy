@@ -6,6 +6,14 @@ import java.nio.file.Paths
 
 class TestQueensAttack {
 
+    private int queensAttack(Reader input) {
+        QueensAttack.queensAttackOptimized(input)
+    }
+
+    private int queensAttack(String input) {
+        queensAttack(new StringReader(input))
+    }
+
     @Test
     void testUnnamedSample() {
         def sampleNone = '''4 4
@@ -15,7 +23,7 @@ class TestQueensAttack {
 2 1
 3 2
 '''
-        assert QueensAttack.queensAttack(sampleNone.readLines()) == 5
+        assert queensAttack(sampleNone) == 5
     }
 
     @Test
@@ -32,7 +40,7 @@ class TestQueensAttack {
 7 4
 '''
 
-        assert QueensAttack.queensAttack(sampleWithAxes.readLines()) == 16
+        assert queensAttack(sampleWithAxes) == 16
     }
 
     @Test
@@ -48,7 +56,7 @@ class TestQueensAttack {
 7 1
 6 2
 '''
-        assert QueensAttack.queensAttack(sampleWithDiagonals.readLines()) == 16
+        assert queensAttack(sampleWithDiagonals) == 16
     }
 
     @Test
@@ -57,7 +65,7 @@ class TestQueensAttack {
 4 4
 '''
 
-        assert QueensAttack.queensAttack(sampleZero.readLines()) == 9
+        assert queensAttack(sampleZero) == 9
     }
 
     @Test
@@ -69,7 +77,7 @@ class TestQueensAttack {
 2 3
 '''
 
-        assert QueensAttack.queensAttack(sampleOne.readLines()) == 10
+        assert queensAttack(sampleOne) == 10
     }
 
     @Test
@@ -78,14 +86,15 @@ class TestQueensAttack {
 4187 5068
 '''
 
-        assert QueensAttack.queensAttack(testCaseThree.readLines()) == 308369
+        assert queensAttack(testCaseThree) == 308369
     }
 
     @Test
     void testCaseTwelve() {
         def path = Paths.get("test-files/queens-attack/test-case-12.txt")
-        def lines = path.readLines()
-        def actual = QueensAttack.queensAttack(lines)
-        assert actual == 1449
+        path.withReader 'US-ASCII', {
+            def actual = queensAttack(it)
+            assert actual == 1449
+        }
     }
 }
