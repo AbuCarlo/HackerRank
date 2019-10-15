@@ -2,7 +2,7 @@ package com.aanassar.hackerrank
 
 class QueensAttack {
 
-    static int queensAttack(BufferedReader reader) {
+    static int queensAttack(reader) {
         def (int n, int k) = reader.readLine().split(' ')*.toInteger()
         // Java is 0-based; the problem is 1-based.
         def (int queensRow, int queensColumn) = reader.readLine().split(' ')*.toInteger()*.minus(1)
@@ -18,7 +18,8 @@ class QueensAttack {
         int northeastObstacle = Math.max(-1, queensRow - (n - queensColumn))
         int southeastObstacle = Math.min(n, queensRow + (n - queensColumn))
 
-        for (line in reader.lines()) {
+        reader.eachLine { line ->
+            // See above.
             def (int row, int column) = line.split(' ')*.toInteger()*.minus(1)
             if (row == queensRow) {
                 if (column < queensColumn) {
@@ -56,5 +57,12 @@ class QueensAttack {
                 (queensColumn - leftwardObstacle - 1) + (rightwardObstacle - queensColumn - 1) +
                 (queensRow - northwestObstacle - 1) + (queensRow - northeastObstacle - 1) +
                 (southwestObstacle - queensRow - 1) + (southeastObstacle - queensRow - 1)
+    }
+
+    static void main(String[] args) {
+        System.in.withReader("US-ASCII") { reader ->
+            int solution = queensAttack reader
+            println solution
+        }
     }
 }
