@@ -21,4 +21,12 @@ class TestContainersOfBalls {
         def input = new ContainersOfBalls([[0, 2], [1, 1]])
         assert !ContainersOfBalls.canOrganize(input)
     }
+
+    @Test
+    void testSampleInputOne() {
+        int[][] possible = [[1, 3, 1], [2, 1, 2], [ 3, 3, 3]]
+        assert !ContainersOfBalls.canOrganize(possible)
+        int[][] impossible = [[0, 2, 1], [1, 1, 1], [2, 0, 0]]
+        assert ContainersOfBalls.canOrganize(impossible)
+    }
 }
