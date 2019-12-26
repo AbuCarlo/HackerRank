@@ -1,15 +1,38 @@
-package com.aanassar.hackerrank
+import groovy.transform.Canonical
+import groovy.transform.Immutable
 
-int countSwaps(List l) {
-    int result = 0
-    for (int i in 0..<l.size()) {
-        for (int j in (i + 1)..<l.size()) {
-            if (l[j] < l[i])
-                ++result
-        }
+@Canonical
+@Immutable
+class Element implements Comparable<Element> {
 
+    int value;
+    int index;
+
+    @Override
+    int compareTo(Element o) {
+        final int ech = Integer.compare(value, o.value);
+        ech != 0 ? ech : Integer.compare(index, o.index)
+    }
+}
+
+long countInversions(int[] a) {
+    TreeSet m = []
+    long result = 0L
+    for (int i = a.length - 1; i >= 0; --i) {
+        Element e = new Element(a[i], i)
+        Set sub = m.headSet(e, false)
+        result += sub.size()
+        m << e
     }
     return result
 }
 
-assert countSwaps([3, 2, 1]) == 3
+def countInversions(String s) {
+    def a = s.split.toInteger() as int[]
+    countInversions a
+}
+
+def sample00 = '1 1 1 2 2'
+println(countInversions(sample00))
+def sample01 = '2 1 3 1 2'
+println(countInversions(sample01))
