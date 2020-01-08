@@ -3,49 +3,39 @@ package com.aanassar.hackerrank;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
 public class CountInversions {
 
-    private final static Random random = new Random();
-
-    // See https://en.wikipedia.org/wiki/Quicksort#Repeated_elements.
-    static long quickSort(int[] a, final int from, final int to) {
-        if (to - from < 2)
+    static long radixSort(int[] a, final int bit) {
+        if (a.length < 2 || bit == 0)
             return 0;
-
-        long swaps = 0L;
+        final int p = (int) Arrays.stream(a).filter(n -> (n & bit) == 0).count();
+        ArrayList<Integer> lesser = new ArrayList<Integer>(p);
+        ArrayList<Integer> greater = new ArrayList<Integer>(a.length - p);
         long inversions = 0L;
-        final int pivotIndex = random.nextInt(to - from) + from;
-        final int pivot = a[pivotIndex];
-        int l = from;
-        int r = to - 1;
-        while (l < r) {
-            if (a[l] <= pivot) {
-                // inversions -= swaps;
-                ++l;
-            } else if (a[r] > pivot) {
-                // inversions -= swaps;
-                --r;
-            } else {
-                final int tmp = a[l];
-                a[l] = a[r];
-                a[r] = tmp;
-                inversions -= swaps;
-                ++swaps;
-                inversions += r - l;
-
-                ++l;
-                --r;
+        for (int n : a) {
+            if ((n & bit) == 0)
+                lesser.add(n);
+            else {
+                greater.add(n);
+                inversions += p - lesser.size();
             }
         }
+
         // Optimize per Sedgewick...
-        return inversions + quickSort(a, 0, l) + quickSort(a, l, to);
+        return inversions +
+                radixSort(lesser.stream().mapToInt(Integer::intValue).toArray(), bit >> 1) +
+                radixSort(greater.stream().mapToInt(Integer::intValue).toArray(), bit >> 1);
     }
 
     public static long countInversions(int[] a) {
-        return quickSort(a, 0, a.length);
+        if (a.length == 0)
+            return 0;
+        final int bit = Arrays.stream(a).map(Integer::highestOneBit).max().getAsInt();
+        return radixSort(a, bit);
     }
 
     public static long countInversions(String input) {
