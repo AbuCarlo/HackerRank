@@ -16,10 +16,10 @@ class TestCountInversions {
     @Test
     void testSorted() {
         int[] a = (0..9).toArray()
-        // assert CountInversions.countInversions(a) == 0
+        assert CountInversions.countInversions(a) == 0
 
         int[] b = (0..9).toList().reverse().toArray()
-        assert CountInversions.countInversions(b) == 55
+        assert CountInversions.countInversions(b) == 45
     }
 
     @Test
@@ -31,19 +31,26 @@ class TestCountInversions {
 
     final Path testFiles = Paths.get('test-files/count-inversions')
 
-    @Test
-    void test02() {
-        Path input = testFiles.resolve("input02.txt")
-        input.withReader('US-ASCII') { reader ->
+    void testFile(input, output) {
+        List expected = testFiles.resolve(output).readLines()*.toInteger()
+        testFiles.resolve(input).withReader('US-ASCII') { reader ->
             final int size = reader.readLine().toInteger()
             for (int i = 0; i < size; ++i) {
                 final int n = reader.readLine().toInteger()
                 final int[] a = reader.readLine().tokenize()*.toInteger().toArray()
-                long result = CountInversions.countInversions(a)
-                println "Result for $input problem $i, size ${a.length}: $result"
+                long actual = CountInversions.countInversions(a)
+                assert actual == expected[i]: "Problem $i in $input expected ${expected[i]}; got $actual"
             }
-
         }
+    }
 
+    @Test
+    void test04() {
+        testFile "input04.txt", "output04.txt"
+    }
+
+    @Test
+    void test02() {
+        testFile "input02.txt", "output02.txt"
     }
 }
