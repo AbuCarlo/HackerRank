@@ -17,7 +17,7 @@ class TestPoisonousPlants {
         List q = [current]
         int previous = Integer.MIN_VALUE
         l.each { int n ->
-            if (n >= previous) {
+            if (n > previous) {
                 current << n
             } else {
                 current = [n]
@@ -42,6 +42,16 @@ class TestPoisonousPlants {
         assert poisonousPlants('6 5 8 4 7 10 9') == 2
         assert poisonousPlants('3 2 5 4') == 2
         assert poisonousPlants('4 3 7 5 6 4 2') == 3
+    }
+
+    @Test
+    void testTestCases() {
+        // # 7
+        assert poisonousPlants('3 1 10 7 3 5 6 6' ) == 3
+        // # 9
+        assert poisonousPlants('11 7 19 6 12 12 8 8 7 1 10 15 5 12') == 5
+        // # 10
+        assert poisonousPlants('2 1 3 1 4 2 1 4 3 3') == 3
     }
 
     @Test
