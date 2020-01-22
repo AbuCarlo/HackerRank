@@ -5,19 +5,47 @@ import org.junit.Test
 class TestPoisonousPlants {
 
     int reduce(List l) {
-        final int head = l.head()
-        def counts = l.findAll({it != head}).countBy({it})
-        return counts ? counts.values().max() : 0
+        if (l.size() < 2)
+            return 0
+        LinkedList previous = l.head()
+        List reduction = [previous]
+        for (LinkedList current : l.tail()) {
+            assert current.head() > previous.last
+            int m = current.removeFirst()
+            if (current.empty) {
+                continue
+            }
+            if (current.first <= previous.last) {
+                previous.addAll(current)
+            } else {
+                previous = current
+                reduction.add previous
+            }
+        }
+        1 + reduce(reduction)
     }
 
     int poisonousPlants(int[] a) {
-        List l = a.collect { int n -> [ n, 1 ] }
-        reduce l
+        if (a.length == 0)
+            return 0
+        LinkedList deque = []
+        List problem = [deque]
+        int previous = Integer.MAX_VALUE
+        for (int n : a) {
+            if (n > previous) {
+                deque = [n] as LinkedList
+                problem << deque
+            } else {
+                deque.addLast(n)
+            }
+            previous = n
+        }
+        reduce problem
     }
 
     int poisonousPlants(String input) {
-        int[] l = input.tokenize()*.toInteger().toArray()
-        poisonousPlants l
+        int[] a = input.tokenize()*.toInteger() as int[]
+        poisonousPlants a
     }
 
     @Test
@@ -42,6 +70,6 @@ class TestPoisonousPlants {
         assert poisonousPlants('1 2 2 2') == 3
         assert poisonousPlants('2 2 2 2') == 0
         assert poisonousPlants('1 1 1 2 2 2 3 3 3') == 3
-        assert poisonousPlants((0..9).reverse().toList()) == 0
+        assert poisonousPlants((0..9).reverse() as int[]) == 0
     }
 }
