@@ -5,20 +5,35 @@ import org.junit.Test
 
 class TestPoisonousPlants {
 
-    int reduce(Stack problem) {
+    int reduce(Stack<List<Integer>> problem) {
         List reductions = [0]
         final Comparator<Integer> comparator = Comparator.<Integer>reverseOrder()
         while (problem.size() > 1) {
-            List l = problem.pop()
-            int ix = Collections.binarySearch(l, problem.peek().last)
-
+            List currentQueue = problem.pop()
+            /*
+                According to https://docs.oracle.com/javase/7/docs/api/java/util/Collections.html#binarySearch(java.util.List,%20T,%20java.util.Comparator),
+                "If the list contains multiple elements equal to the specified object, there is no guarantee which one will be found."
+             */
+            List<Integer> previousQueue = problem.peek()
+            final int last = previousQueue.last()
+            int ix = Collections.binarySearch(currentQueue, last)
+            int cutoff
+            if (ix < 0) {
+                ix = -ix
+            } else {
+                while (currentQueue[ix - 1] == last)
+                    --ix
+            }
+            List tail = currentQueue.subList(ix, currentQueue.size())
+            previousQueue.addAll(tail)
         }
         return reductions.max()
     }
 
     int poisonousPlants(int[] a) {
         List q = []
-        Stack problem = [q]
+        Stack problem = new Stack()
+        problem.push q
         int previous = Integer.MIN_VALUE
         for (int n : a) {
             if (n > previous) {
