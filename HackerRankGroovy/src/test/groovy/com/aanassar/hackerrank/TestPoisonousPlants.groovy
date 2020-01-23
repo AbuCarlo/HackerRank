@@ -4,36 +4,19 @@ import org.junit.Test
 
 class TestPoisonousPlants {
 
-    int countReductions(List l) {
+    int reduce(List l) {
         final int head = l.head()
         def counts = l.findAll({it != head}).countBy({it})
         return counts ? counts.values().max() : 0
     }
 
-    int poisonousPlants(List l) {
-        if (l.isEmpty())
-            return 0
-        List current = []
-        List q = [current]
-        int previous = Integer.MIN_VALUE
-        l.each { int n ->
-            if (n > previous) {
-                current << n
-            } else {
-                current = [n]
-                q << current
-            }
-            previous = n
-        }
-        if (q.every { it.size() == 1 })
-            return 0
-        int result = q.collect { countReductions(it) }.max()
-        List next = q*.first()
-        return result + poisonousPlants(next)
+    int poisonousPlants(int[] a) {
+        List l = a.collect { int n -> [ n, 1 ] }
+        reduce l
     }
 
     int poisonousPlants(String input) {
-        List l = input.tokenize()*.toInteger().toList()
+        int[] l = input.tokenize()*.toInteger().toArray()
         poisonousPlants l
     }
 
