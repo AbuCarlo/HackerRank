@@ -1,6 +1,5 @@
 package com.aanassar.hackerrank
 
-import java.util.function.Function
 import org.junit.Test
 
 class TestPoisonousPlants {
