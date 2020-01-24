@@ -44,7 +44,7 @@ class TestPoisonousPlants {
     @Test
     void testTestCaseFiles() {
 
-        // assert poisonousPlants(testFiles.resolve('input12.txt')) == 16
+        assert poisonousPlants(testFiles.resolve('input12.txt')) == 16
 
         assert poisonousPlants(testFiles.resolve('input20.txt')) == 24
 
@@ -52,6 +52,7 @@ class TestPoisonousPlants {
 
         assert poisonousPlants(testFiles.resolve('input23.txt')) == 80802
 
+        assert poisonousPlants(testFiles.resolve('input23.txt')) == 3
     }
 
     @Test
