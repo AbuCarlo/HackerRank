@@ -46,15 +46,28 @@ class TestPoisonousPlants {
     void testEdgeCases() {
         assert poisonousPlants('5 4 3 2 1 4 3 2 1 3 2 1') == 3
         assert poisonousPlants('1 2 3 4 5 2 3 4 5 3 4 5 4 5') == 2
+        assert poisonousPlants('3 2 1 5 4 3 2') == 4
+        // gleaned from randomized tests
+        assert poisonousPlants([9, 3, 5, 8, 7, 6, 4, 2, 1, 7]) == 4
+        assert poisonousPlants([2, 3, 5, 7, 6, 4, 9, 0, 1, 8]) == 3
+    }
+
+    final Random random = new Random()
+
+    List createInput(int size, int bound) {
+        List l = (0..<size).collect { random.nextInt(bound)}
+        Map ordering = [:]
+        l.unique().toSorted().eachWithIndex{ int entry, int i -> ordering.put entry, i }
+        l.collect { n -> ordering[n]}
     }
 
     @Test
     void testRandomized() {
-        Random random = new Random()
-        List l = (0..9).collect { random.nextInt(10)}
-        def expected = slowPoisonousPlants(l)
-        def actual = PoisonousPlants.poisonousPlants(l as int[])
-        assert expected == actual : "$l expected $expected; was $actual"
+
+        List input = createInput(10, 100)
+        def expected = slowPoisonousPlants(input)
+        def actual = PoisonousPlants.poisonousPlants(input as int[])
+        assert expected == actual : "$input expected $expected; was $actual"
     }
 
     @Test
