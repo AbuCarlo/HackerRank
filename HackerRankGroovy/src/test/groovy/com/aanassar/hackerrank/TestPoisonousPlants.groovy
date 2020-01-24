@@ -21,8 +21,8 @@ class TestPoisonousPlants {
 
     int slowPoisonousPlants(List l) {
         int reductions = 0
-        int previous = Integer.MIN_VALUE
         while (true) {
+            int previous = Integer.MAX_VALUE
             List m = []
             for (int n : l) {
                 if (n <= previous) {
@@ -36,6 +36,10 @@ class TestPoisonousPlants {
             l = m
             ++reductions
         }
+    }
+
+    int poisonousPlants(List l) {
+        PoisonousPlants.poisonousPlants(l as int[])
     }
 
     @Test
