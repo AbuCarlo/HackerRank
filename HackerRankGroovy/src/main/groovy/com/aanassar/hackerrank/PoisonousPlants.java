@@ -25,9 +25,9 @@ public class PoisonousPlants {
                     --ix;
             }
             List tail = currentQueue.subList(ix, currentQueue.size());
+            previousQueue.addAll(tail);
             // We've discarded this many values.
             reductions.add(ix);
-            previousQueue.addAll(tail);
         }
         return reductions.stream().max(Integer::compareTo).get();
     }
