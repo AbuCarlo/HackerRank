@@ -19,12 +19,44 @@ class TestPoisonousPlants {
         poisonousPlants(lines[1])
     }
 
+    int slowPoisonousPlants(List l) {
+        int reductions = 0
+        int previous = Integer.MIN_VALUE
+        while (true) {
+            List m = []
+            for (int n : l) {
+                if (n <= previous) {
+                    m << n
+                }
+                previous = n
+            }
+            if (m.size() == l.size()) {
+                return reductions
+            }
+            l = m
+            ++reductions
+        }
+    }
+
+    @Test
+    void testEdgeCases() {
+        assert poisonousPlants('5 4 3 2 1 4 3 2 1 3 2 1') == 3
+        assert poisonousPlants('1 2 3 4 5 2 3 4 5 3 4 5 4 5') == 2
+    }
+
+    @Test
+    void testRandomized() {
+        Random random = new Random()
+        List l = (0..9).collect { random.nextInt(10)}
+        def expected = slowPoisonousPlants(l)
+        def actual = PoisonousPlants.poisonousPlants(l as int[])
+        assert expected == actual : "$l expected $expected; was $actual"
+    }
+
     @Test
     void testSamples() {
         // # 0
         assert poisonousPlants('6 5 8 4 7 10 9') == 2
-        assert poisonousPlants('3 2 5 4') == 2
-        assert poisonousPlants('4 3 7 5 6 4 2') == 3
     }
 
     @Test
