@@ -48,8 +48,11 @@ class TestPoisonousPlants {
         assert poisonousPlants('1 2 3 4 5 2 3 4 5 3 4 5 4 5') == 2
         assert poisonousPlants('3 2 1 5 4 3 2') == 4
         // gleaned from randomized tests
+        assert poisonousPlants([0, 2, 4, 3, 1] ) == 3
+        
         assert poisonousPlants([9, 3, 5, 8, 7, 6, 4, 2, 1, 7]) == 4
         assert poisonousPlants([2, 3, 5, 7, 6, 4, 9, 0, 1, 8]) == 3
+        assert poisonousPlants([2, 4, 0, 3, 6, 5, 1]) == 3
     }
 
     final Random random = new Random()
@@ -63,11 +66,12 @@ class TestPoisonousPlants {
 
     @Test
     void testRandomized() {
-
-        List input = createInput(10, 100)
-        def expected = slowPoisonousPlants(input)
-        def actual = PoisonousPlants.poisonousPlants(input as int[])
-        assert expected == actual : "$input expected $expected; was $actual"
+        0.upto(100) {
+            List input = createInput(5, 100)
+            def expected = slowPoisonousPlants(input)
+            def actual = PoisonousPlants.poisonousPlants(input as int[])
+            assert expected == actual: "$input expected $expected; was $actual"
+        }
     }
 
     @Test
