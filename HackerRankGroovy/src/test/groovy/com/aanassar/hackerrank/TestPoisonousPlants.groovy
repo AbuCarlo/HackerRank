@@ -105,7 +105,7 @@ class TestPoisonousPlants {
 
         assert poisonousPlants(testFiles.resolve('input23.txt')) == 80802
 
-        assert poisonousPlants(testFiles.resolve('input23.txt')) == 3
+        assert poisonousPlants(testFiles.resolve('input28.txt')) == 3
     }
 
     @Test
