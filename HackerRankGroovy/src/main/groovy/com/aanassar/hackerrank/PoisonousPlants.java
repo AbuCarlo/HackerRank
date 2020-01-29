@@ -4,43 +4,49 @@ import java.util.*;
 
 public class PoisonousPlants {
 
-    static int reduce(Stack<List<Integer>> problem) {
-        List<Integer> reductions = new ArrayList<>();
-        reductions.add(0);
-        final Comparator<Integer> comparator = Comparator.reverseOrder();
+    static int reduce(Deque<Deque<Integer>> problem) {
+
+        int reductions = 0;
+
         while (problem.size() > 1) {
-            List<Integer> currentQueue = problem.pop();
-            /*
-                According to https://docs.oracle.com/javase/7/docs/api/java/util/Collections.html#binarySearch(java.util.List,%20T,%20java.util.Comparator),
-                "If the list contains multiple elements equal to the specified object, there is no guarantee which one will be found."
-             */
-            List<Integer> previousQueue = problem.peek();
-            final int last = previousQueue.get(previousQueue.size() - 1);
-            int ix = Collections.binarySearch(currentQueue, last, comparator);
-            if (ix < 0) {
-                // The value is not present; everything from the insertion point on.
-                ix = -ix - 1;
-            } else {
-                while (currentQueue.get(ix - 1) == last)
-                    --ix;
+
+            final Deque<Deque<Integer>> nextProblem = new LinkedList<>();
+            Deque<Integer> previous = problem.removeFirst();
+            nextProblem.addLast(previous);
+
+            while (!problem.isEmpty()) {
+                final Deque<Integer> current = problem.removeFirst();
+
+                assert (current.getFirst() > previous.getLast());
+                current.removeFirst();
+
+                if (current.isEmpty()) {
+                    continue;
+                }
+                if (current.getFirst() <= previous.getLast()) {
+                    current.stream().forEach(previous::addLast);
+                } else {
+                    nextProblem.addLast(current);
+                    previous = current;
+                }
             }
-            List tail = currentQueue.subList(ix, currentQueue.size());
-            previousQueue.addAll(tail);
-            // We've discarded this many values.
-            reductions.add(ix);
+
+            ++reductions;
+
+            problem = nextProblem;
         }
-        return reductions.stream().max(Integer::compareTo).get();
+        return reductions;
     }
 
     static int poisonousPlants(int[] a) {
-        List<Integer> q = new ArrayList<>();
-        Stack<List<Integer>> problem = new Stack<>();
-        problem.push(q);
+        Deque<Integer> q = new LinkedList<>();
+        Deque<Deque<Integer>> problem = new LinkedList<>();
+        problem.add(q);
         int previous = Integer.MAX_VALUE;
         for (int n : a) {
             if (n > previous) {
-                q = new ArrayList<>();
-                problem.push(q);
+                q = new LinkedList<>();
+                problem.add(q);
             }
             q.add(n);
             previous = n;
