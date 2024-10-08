@@ -1,14 +1,21 @@
 
-repositories {  jcenter()  }
+plugins {
+    id 'groovy'
+}
 
-apply plugin: 'groovy'
+java {
+    sourceCompatibility = 17
+    targetCompatibility = 17
+}
+
+repositories {  mavenCentral()  }
 
 dependencies {
 
-    testCompile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
-    testRuntime group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
-    compile group: 'org.codehaus.groovy', name: 'groovy', version: groovyVersion
-    testCompile group: 'org.codehaus.groovy', name: 'groovy-nio', version: groovyVersion
+    testImplementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+    testRuntimeOnly group: 'ch.qos.logback', name: 'logback-classic', version: '1.5.8'
+    implementation group: 'org.codehaus.groovy', name: 'groovy', version: groovyVersion
+    testImplementation group: 'org.codehaus.groovy', name: 'groovy-nio', version: groovyVersion
 
-    testCompile 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13.1'
 }
