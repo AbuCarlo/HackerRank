@@ -1,3 +1,5 @@
+package com.aanassar.hackerrank
+
 def l00 = [ 3, 7, 4, 6, 5 ]
 def l01 = [ 2, 1, 5, 8, 4 ]
 def l02 = [ 3, 5, -7, 8, 10 ]

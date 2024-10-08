@@ -24,7 +24,7 @@ public class PoisonousPlants {
                     continue;
                 }
                 if (current.getFirst() <= previous.getLast()) {
-                    current.stream().forEach(previous::addLast);
+                    current.forEach(previous::addLast);
                 } else {
                     nextProblem.addLast(current);
                     previous = current;
