@@ -4,8 +4,9 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
-// https://www.hackerrank.com/challenges/extra-long-factorials/problem
-
+/**
+ * <a href="https://www.hackerrank.com/challenges/extra-long-factorials/problem">...</a>
+ */
 public class LongFactorial {
 
     public static BigInteger solve(int n) {

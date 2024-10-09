@@ -5,8 +5,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-// https://www.hackerrank.com/challenges/kaprekar-numbers/problem
-
+/**
+ * <a href="https://www.hackerrank.com/challenges/kaprekar-numbers/problem">...</a>
+ */
 public class KaprekarNumbers {
 
     static boolean isKaprekar(final int n) {

@@ -9,6 +9,7 @@ import java.util.stream.IntStream;
 public class TestTripleSum {
 
     /**
+     * From <a href="https://www.hackerrank.com/challenges/triple-sum/problem">...</a>
      *
      * @param l an array providing the first value of every pair
      * @param r an array from which to select values <= the previous

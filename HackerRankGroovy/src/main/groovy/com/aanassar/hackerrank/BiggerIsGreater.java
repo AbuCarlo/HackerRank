@@ -1,7 +1,8 @@
 package com.aanassar.hackerrank;
 
-// https://www.hackerrank.com/challenges/bigger-is-greater/problem
-
+/**
+ * <a href="https://www.hackerrank.com/challenges/bigger-is-greater/problem">...</a>
+ */
 public class BiggerIsGreater {
 
     static String biggerIsGreater(String s) {

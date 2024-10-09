@@ -6,12 +6,11 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-/*
-    https://www.hackerrank.com/challenges/ctci-merge-sort/problem
+/**
+ <a href="https://www.hackerrank.com/challenges/ctci-merge-sort/problem">...</a>
 
-    "Given an array, return the number of inversions to sort the array."
+ "Given an array, return the number of inversions to sort the array."
  */
-
 public class CountInversions {
 
     static long radixSort(int[] a, final int bit) {

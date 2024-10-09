@@ -5,8 +5,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-// https://www.hackerrank.com/challenges/organizing-containers-of-balls/problem
-
+/**
+ * <a href="https://www.hackerrank.com/challenges/organizing-containers-of-balls/problem">...</a>
+ */
 public class ContainersOfBalls {
 
     private final List<int[]> contents;
