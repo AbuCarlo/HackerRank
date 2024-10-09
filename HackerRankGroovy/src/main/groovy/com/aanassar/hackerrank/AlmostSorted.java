@@ -3,6 +3,8 @@ package com.aanassar.hackerrank;
 import java.util.Arrays;
 import java.util.stream.IntStream;
 
+// https://www.hackerrank.com/challenges/almost-sorted/problem
+
 public class AlmostSorted {
 
     static boolean isSorted(int[] a) {

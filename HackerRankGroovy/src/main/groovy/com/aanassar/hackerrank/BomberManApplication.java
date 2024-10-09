@@ -8,6 +8,8 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 
+// https://www.hackerrank.com/challenges/bomber-man/problem
+
 public class BomberManApplication {
 
     public static final char BOMB = 'O';

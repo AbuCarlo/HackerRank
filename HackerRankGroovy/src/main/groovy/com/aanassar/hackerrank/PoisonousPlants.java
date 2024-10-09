@@ -2,6 +2,8 @@ package com.aanassar.hackerrank;
 
 import java.util.*;
 
+// https://www.hackerrank.com/challenges/poisonous-plants/problem
+
 public class PoisonousPlants {
 
     static int reduce(Deque<Deque<Integer>> problem) {

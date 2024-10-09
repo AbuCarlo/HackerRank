@@ -1,5 +1,7 @@
 package com.aanassar.hackerrank
 
+// https://www.hackerrank.com/challenges/climbing-the-leaderboard/problem
+
 int[] solve(BufferedReader reader) {
     def n = reader.readLine().toInteger()
     int[] scores = reader.readLine().split(' ')*.toInteger().unique().sort()

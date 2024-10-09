@@ -1,5 +1,7 @@
 package com.aanassar.hackerrank
 
+// https://www.hackerrank.com/challenges/beautiful-triplets/problem
+
 def findPairs(final int d, a) {
     def pairs = []
     for (int i = 0; i < a.size() - 1; ++i) {
@@ -16,6 +18,8 @@ def findPairs(final int d, a) {
     }
     pairs
 }
+
+// https://www.hackerrank.com/challenges/beautiful-triplets/problem
 
 def beautifulTriplets(final int d, a) {
     final pairs = findPairs(d, a)

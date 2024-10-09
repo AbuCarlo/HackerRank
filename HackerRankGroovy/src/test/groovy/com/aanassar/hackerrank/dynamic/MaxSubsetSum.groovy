@@ -1,4 +1,4 @@
-package com.aanassar.hackerrank
+package com.aanassar.hackerrank.dynamic
 
 def l00 = [ 3, 7, 4, 6, 5 ]
 def l01 = [ 2, 1, 5, 8, 4 ]

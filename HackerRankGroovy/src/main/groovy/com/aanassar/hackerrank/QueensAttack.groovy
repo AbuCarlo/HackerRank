@@ -2,6 +2,8 @@ package com.aanassar.hackerrank
 
 import java.util.stream.Collectors
 
+// https://www.hackerrank.com/challenges/queens-attack-2/problem
+
 class QueensAttack {
 
     static class Position {

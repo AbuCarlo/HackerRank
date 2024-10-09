@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+// https://www.hackerrank.com/challenges/kaprekar-numbers/problem
+
 public class KaprekarNumbers {
 
     static boolean isKaprekar(final int n) {
